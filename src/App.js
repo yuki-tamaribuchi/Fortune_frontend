@@ -1,25 +1,52 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class FortuneComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      track: null
+    };
+  }
+
+  componentDidMount(){
+    fetch("http://127.0.0.1:8000/tracks/recommend")
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          track: result
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+  }
+
+  render(){
+    const { error, isLoaded, track} = this.state;
+    if(error){
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded){
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div>
+          <p>
+            {track.track_name} / {track.artists}
+          </p>
+          <p>{track.preview_url}</p>
+        </div>
+      );
+    }
+  }
 }
 
-export default App;
+export default FortuneComponent;
