@@ -1,52 +1,37 @@
 import './App.css';
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-class FortuneComponent extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      track: null
-    };
-  }
+import Home from './Home';
+import Navbar from './Navbar';
+import GetRandomTrack from './GetRandomTrack';
 
+
+class App extends React.Component{
   componentDidMount(){
-    fetch("http://127.0.0.1:8000/tracks/recommend")
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoaded: true,
-          track: result
-        });
-      },
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      }
-    )
+    document.title = "Fortune";
   }
 
-  render(){
-    const { error, isLoaded, track} = this.state;
-    if(error){
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded){
-      return <div>Loading...</div>;
-    } else {
-      return (
+  render() {
+    return (
+      <div className='App'>
+        <BrowserRouter>
+          <Routes> 
+            <Route path="/" element={<Home />} />
+          </Routes>
+          <Routes>
+            <Route path="/getFortune" element={<GetRandomTrack />} />
+          </Routes>
+        </BrowserRouter>
         <div>
-          <p>
-            {track.track_name} / {track.artists}
-          </p>
-          <p>{track.preview_url}</p>
+          <link rel="preconnect" href="https://fonts.googleapis.com"/>
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@200&family=Outfit&display=swap" rel="stylesheet"/> 
         </div>
-      );
-    }
-  }
+        
+      </div>
+    )
+  };
 }
 
-export default FortuneComponent;
+export default App;
