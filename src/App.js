@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Navbar from './Navbar';
 import GetRandomTrack from './GetRandomTrack';
+import Login from './Login';
+import Logout from './Logout';
 
 
 class App extends React.Component{
@@ -16,11 +18,12 @@ class App extends React.Component{
     return (
       <div className='App'>
         <BrowserRouter>
-          <Routes> 
-            <Route path="/" element={<Home />} />
-          </Routes>
+        <Navbar />
           <Routes>
+            <Route exact path="/" element={<Home />} />
             <Route path="/getFortune" element={<GetRandomTrack />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
           </Routes>
         </BrowserRouter>
         <div>
@@ -28,7 +31,6 @@ class App extends React.Component{
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
           <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@200&family=Outfit&display=swap" rel="stylesheet"/> 
         </div>
-        
       </div>
     )
   };
